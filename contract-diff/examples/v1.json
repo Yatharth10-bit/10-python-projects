@@ -1,0 +1,64 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Campus tickets",
+    "version": "1"
+  },
+  "paths": {
+    "/tickets": {
+      "post": {
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Ticket"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Issued",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "confirmed"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "status"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Ticket": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "seats": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "name"
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites><testsuite name="api">
+  <testcase classname="test_booking" name="test_currency" time="1"></testcase>
+</testsuite></testsuites>

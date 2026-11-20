@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 524" role="img">
+<title>Held-out cricket forecasts and actual chase results</title>
+<rect width="820" height="524" rx="18" fill="#131d33"/>
+<g font-family="system-ui, sans-serif" fill="#e6f0fa">
+<text x="32" y="46" font-size="30" font-weight="bold">Chase Replay</text>
+<text x="32" y="77" font-size="16">Synthetic demo · At the end of over 10 · 9 held-out matches</text>
+<g font-size="13" fill="#afc2da"><text x="32" y="122">Match date</text><text x="165" y="122">Score</text><text x="270" y="122">Estimated chase win probability</text><text x="681" y="122">Outcome</text></g>
+<text x="32" y="155" font-size="15">2025-01-28</text>
+<text x="165" y="155" font-size="15">88/2</text>
+<rect x="270" y="143" width="300" height="14" rx="7" fill="#2d3d5a"/>
+<rect x="270" y="143" width="233.3" height="14" rx="7" fill="#8ecfee"/>
+<text x="590" y="155" font-size="15">78%</text>
+<text x="681" y="155" font-size="15" fill="#7bddba">Won</text>
+<text x="32" y="197" font-size="15">2025-01-29</text>
+<text x="165" y="197" font-size="15">77/3</text>
+<rect x="270" y="185" width="300" height="14" rx="7" fill="#2d3d5a"/>
+<rect x="270" y="185" width="66.7" height="14" rx="7" fill="#8ecfee"/>
+<text x="590" y="197" font-size="15">22%</text>
+<text x="681" y="197" font-size="15" fill="#f9bba1">Lost</text>
+<text x="32" y="239" font-size="15">2025-01-30</text>
+<text x="165" y="239" font-size="15">72/8</text>
+<rect x="270" y="227" width="300" height="14" rx="7" fill="#2d3d5a"/>
+<rect x="270" y="227" width="133.3" height="14" rx="7" fill="#8ecfee"/>
+<text x="590" y="239" font-size="15">44%</text>
+<text x="681" y="239" font-size="15" fill="#f9bba1">Lost</text>
+<text x="32" y="281" font-size="15">2025-01-31</text>
+<text x="165" y="281" font-size="15">95/4</text>
+<rect x="270" y="269" width="300" height="14" rx="7" fill="#2d3d5a"/>
+<rect x="270" y="269" width="133.3" height="14" rx="7" fill="#8ecfee"/>
+<text x="590" y="281" font-size="15">44%</text>
+<text x="681" y="281" font-size="15" fill="#f9bba1">Lost</text>
+<text x="32" y="323" font-size="15">2025-02-01</text>
+<text x="165" y="323" font-size="15">78/6</text>
+<rect x="270" y="311" width="300" height="14" rx="7" fill="#2d3d5a"/>
+<rect x="270" y="311" width="100.0" height="14" rx="7" fill="#8ecfee"/>
+<text x="590" y="323" font-size="15">33%</text>
+<text x="681" y="323" font-size="15" fill="#f9bba1">Lost</text>
+<text x="32" y="365" font-size="15">2025-02-02</text>
+<text x="165" y="365" font-size="15">84/1</text>
+<rect x="270" y="353" width="300" height="14" rx="7" fill="#2d3d5a"/>
+<rect x="270" y="353" width="133.3" height="14" rx="7" fill="#8ecfee"/>
+<text x="590" y="365" font-size="15">44%</text>
+<text x="681" y="365" font-size="15" fill="#f9bba1">Lost</text>
+<text x="32" y="407" font-size="15">2025-02-03</text>
+<text x="165" y="407" font-size="15">96/3</text>
+<rect x="270" y="395" width="300" height="14" rx="7" fill="#2d3d5a"/>
+<rect x="270" y="395" width="233.3" height="14" rx="7" fill="#8ecfee"/>
+<text x="590" y="407" font-size="15">78%</text>
+<text x="681" y="407" font-size="15" fill="#7bddba">Won</text>
+<text x="32" y="449" font-size="15">2025-02-04</text>
+<text x="165" y="449" font-size="15">82/5</text>
+<rect x="270" y="437" width="300" height="14" rx="7" fill="#2d3d5a"/>
+<rect x="270" y="437" width="200.0" height="14" rx="7" fill="#8ecfee"/>
+<text x="590" y="449" font-size="15">67%</text>
+<text x="681" y="449" font-size="15" fill="#7bddba">Won</text>
+<text x="32" y="503" font-size="15">Brier score on all held-out matches (lower is better): model 0.1289, baseline 0.2593</text></g></svg>

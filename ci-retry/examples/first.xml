@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites><testsuite name="api">
+  <testcase classname="test_booking" name="test_reservation" time="5"><failure message="timeout"/></testcase>
+  <testcase classname="test_booking" name="test_currency" time="1"><failure message="expected INR"/></testcase>
+  <testcase classname="test_booking" name="test_receipt" time="0"><skipped/></testcase>
+</testsuite></testsuites>

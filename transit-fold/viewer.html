@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Transit Fold Lab</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#111623;color:#eee;font:16px/1.5 system-ui,sans-serif}main{width:min(920px,94vw);margin:3rem auto}
+h1{font:normal clamp(2.3rem,7vw,4.4rem)/1.04 Georgia,serif;margin:.5rem 0 1rem}h2{font-size:1.1rem;margin:0 0 .7rem}
+p{color:#bec5d8}#source{color:#77e5d3}section{border-top:1px solid #405064;padding:1rem 0}svg{width:100%;display:block;background:#192033;border-radius:.6rem}
+label,output{font-weight:600}input{width:min(50vw,350px);vertical-align:middle;accent-color:#74e2d0}
+button{background:#28354b;border:1px solid #7886a1;border-radius:6px;color:#fff;cursor:pointer;padding:.45rem .85rem}small{color:#bec5d8}
+</style><main><header><div id="source"></div><h1>Transit Fold Lab</h1><p>Align repeated orbits until the dips in starlight line up.</p></header>
+<section><h2>Observed brightness</h2><svg id="raw" role="img" aria-label="Flux versus elapsed time"></svg></section>
+<section><h2>Folded light curve</h2><label for="period">Trial period </label><output id="readout"></output>
+<div><input id="period" type="range" min="0" step="1"><button id="reset">Best fit</button></div>
+<p id="fit"></p><svg id="fold" role="img" aria-label="Flux versus orbital phase centered on the fitted dip"></svg>
+<small>Phase zero marks the fitted dip center. The amber line shows mean flux in phase bins.</small></section>
+<section><h2>Period search</h2><svg id="scan" role="img" aria-label="Fit improvement versus trial period"></svg>
+<small>Score measures the reduction in squared residuals when fitting a dimming interval.</small></section></main>
+<script>
+const data=/*DATA*/null;
+if (data) {
+  const el=id=>document.getElementById(id);
+  const ns='http://www.w3.org/2000/svg';
+  const rows=data.rows, times=rows.map(r=>r[0]), brightness=rows.map(r=>r[1]);
+  const extent=values=>values.reduce(([lo,hi],v)=>[Math.min(lo,v),Math.max(hi,v)],[Infinity,-Infinity]);
+  const [t0,t1]=extent(times), [f0,f1]=extent(brightness);
+  const pad=(f1-f0)*.12 || .001;
+  function shape(svg,type,attributes,caption) {
+    const node=document.createElementNS(ns,type);
+    for(const [key,value] of Object.entries(attributes)) node.setAttribute(key,value);
+    if(caption!==undefined) node.textContent=caption;
+    svg.appendChild(node);
+  }
+  function axes(id,xlo,xhi,ylo,yhi,xlabel) {
+    const svg=el(id); svg.replaceChildren();svg.setAttribute('viewBox','0 0 780 190');
+    const x=v=>62+690*(v-xlo)/(xhi-xlo);
+    const y=v=>148-124*(v-ylo)/(yhi-ylo);
+    function label(xx,yy,caption,anchor='middle'){
+      shape(svg,'text',{x:xx,y:yy,fill:'#bdc9dc','font-size':12,'text-anchor':anchor},caption);
+    }
+    for(let i=0;i<=2;i++){
+      const v=ylo+(yhi-ylo)*i/2;
+      shape(svg,'line',{x1:62,x2:752,y1:y(v),y2:y(v),stroke:'#39465c'});
+      label(56,y(v)+4,Number(v.toPrecision(4)),'end');
+    }
+    label(62,169,Number(xlo.toFixed(3))); label(752,169,Number(xhi.toFixed(3)));
+    label(407,181,xlabel);
+    return {svg,x,y};
+  }
+  function points(plot,rows) {
+    // Render a regular subsample on large imports. Python evaluates every row.
+    const stride=Math.max(1,Math.ceil(rows.length/4500));
+    let path='';
+    for(let i=0;i<rows.length;i+=stride){
+      const [a,b]=rows[i];path+='M'+plot.x(a).toFixed(2)+' '+plot.y(b).toFixed(2)+'h.15 ';
+    }
+    shape(plot.svg,'path',{d:path,fill:'none',stroke:'#71e5d2','stroke-width':2.5,'stroke-linecap':'round',opacity:.7});
+  }
+  function line(plot,rows,color) {
+    const points=rows.map(([a,b])=>[plot.x(a),plot.y(b)].join(',')).join(' ');
+    shape(plot.svg,'polyline',{points,fill:'none',stroke:color,'stroke-width':2});
+  }
+  const raw=axes('raw',0,t1-t0,f0-pad,f1+pad,'Elapsed time (days)');
+  points(raw,rows.map(([t,f])=>[t-t0,f]));
+  const slider=el('period'); slider.max=data.trials.length-1;slider.value=data.best;
+  const maxScore=data.trials[data.best][1];
+  const scan=axes('scan',data.trials[0][0],data.trials.at(-1)[0],0,maxScore || 1,'Trial period (days)');
+  line(scan,data.trials.map(([p,s])=>[p,s]),'#71e5d2');
+  shape(scan.svg,'line',{id:'marker',y1:18,y2:149,stroke:'#ffca82','stroke-dasharray':'4 4'});
+  function draw(){
+    const [p,score,depth,center]=data.trials[Number(slider.value)];
+    el('readout').textContent=p.toFixed(3)+' days';
+    el('fit').textContent=maxScore?'Fitted depth '+depth.toPrecision(3)+' flux units · score '+score.toPrecision(3):'Flat data: no measurable dip on this grid.';
+    const plot=axes('fold',-.5,.5,f0-pad,f1+pad,'Orbital phase (cycles)');
+    const folded=rows.map(([t,f])=>[(((t-t0)/p-center+1.5)%1)-.5,f]);
+    points(plot,folded);
+    const bins=Array.from({length:40},()=>[0,0]);
+    for(const [phase,f] of folded){const bin=bins[Math.min(39,Math.floor((phase+.5)*40))];bin[0]+=f;bin[1]++;}
+    const means=bins.flatMap(([sum,n],i)=>n?[[(i+.5)/40-.5,sum/n]]:[]);
+    line(plot,means,'#ffca82');
+    for(const key of ['x1','x2'])el('marker').setAttribute(key,scan.x(p));
+  }
+  el('source').textContent=data.label+' · '+rows.length+' samples';
+  slider.addEventListener('input',draw);el('reset').addEventListener('click',()=>{slider.value=data.best;draw()});draw();
+}
+</script></html>
