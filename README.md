@@ -1,8 +1,22 @@
 # 10 Python Projects
 
-Eight students request the last lab seat at the same instant. A bus route closes but some passengers still have a way home. A game averages 69 FPS and stutters anyway. This collection turns ten questions like these into small, reproducible Python experiments.
+## Featured projects
 
-**Start with [SeatRace](seat-race/) for backend engineering, [Transit Cut](transit-cut/) for algorithms, or [Transit Fold Lab](transit-fold/) for scientific computing.** Each project has its own source, tests, sample input or generator, and instructions for trying a different input. The demos run offline.
+### [SeatRace](seat-race/) · Backend engineering
+
+Who gets the last robotics lab seat when eight students book at once? Each request opens its own SQLite connection. The experiment confirms one booking, queues seven, then cancels the winner and checks that the first waiting ticket moves up. Run it from the repository root:
+
+```sh
+python seat-race/seat_race.py race --students 8 --seats 1
+```
+
+### [Transit Cut](transit-cut/) · Graph algorithms
+
+Which stops can you still reach after a bus route closes? Transit Cut builds a directed graph from GTFS tables and runs breadth-first search before and after the closure. In the fictional network below, closing Green disconnects Observatory from Library and doubles the shortest route to West Gate from two hops to four.
+
+```sh
+python transit-cut/transit_cut.py --origin A --close GREEN
+```
 
 ![A route closure changes access to stops in the synthetic Transit Cut network](transit-cut/demo/closure.svg)
 
